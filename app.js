@@ -16,9 +16,54 @@ inquirer.prompt([
     name: 'role',
     message: 'What is the role?',
     choices: ['employee', 'manager', 'intern', 'engineer']
+  }, 
+  {
+    type: 'input',
+    name: 'name',
+    message: 'enter name'
   },
+  {
+    type: 'input',
+    name: 'id',
+    message: 'enter id'
+  },
+  {
+    type: 'input',
+    name: 'email',
+    message: 'enter email'
+  }
 ])
-
+.then(res => {
+  if (res.role == 'manager')
+  {
+    inquirer.prompt(
+      {
+        type: 'input',
+        name: 'officeNumber',
+        message: 'enter office phone number'
+      }
+    )
+  }
+  if (res.role == 'engineer') {
+    inquirer.prompt(
+      {
+        type: 'input',
+        name: 'github',
+        message: 'enter github username'
+      }
+    )
+  }
+  if (res.role == 'intern') {
+    inquirer.prompt(
+      {
+        type: 'input',
+        name: 'school',
+        message: 'enter school'
+      }
+    )
+  }
+})
+.catch (err => console.log(err))
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
