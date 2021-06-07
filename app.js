@@ -5,65 +5,115 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
+let employees = []
+
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-inquirer.prompt([
-  {
-    type: 'list',
-    name: 'role',
-    message: 'What is the role?',
-    choices: ['employee', 'manager', 'intern', 'engineer']
-  }, 
-  {
-    type: 'input',
-    name: 'name',
-    message: 'enter name'
-  },
-  {
-    type: 'input',
-    name: 'id',
-    message: 'enter id'
-  },
-  {
-    type: 'input',
-    name: 'email',
-    message: 'enter email'
-  }
-])
-.then(res => {
-  if (res.role == 'manager')
-  {
-    inquirer.prompt(
-      {
-        type: 'input',
-        name: 'officeNumber',
-        message: 'enter office phone number'
+const create = () => {
+  inquirer.prompt([
+    {
+      type: 'list',
+      name: 'role',
+      message: 'What is the role?',
+      choices: ['employee', 'manager', 'intern', 'engineer']
+    },
+    {
+      type: 'input',
+      name: 'name',
+      message: 'enter name'
+    },
+    {
+      type: 'input',
+      name: 'id',
+      message: 'enter id'
+    },
+    {
+      type: 'input',
+      name: 'email',
+      message: 'enter email'
+    }
+  ])
+    .then(res => {
+      if (res.role == 'manager') {
+        inquirer.prompt(
+          {
+            type: 'input',
+            name: 'officeNumber',
+            message: 'enter office phone number'
+          })
+          .then(mngr => {
+            employees.push(new Manager(res.name, res.id, res.email, mngr.officeNumber))
+            inquirer.prompt({
+              type: 'confirm',
+              name: 'cont',
+              message: 'Would you like to add more employees?'
+            })
+              .then(res2 => {
+                if (res2.cont) { create() }
+                else {
+                  fs.writeFileSync('team.html', render(employees))
+                }
+              })
+              .catch(err => console.log(err))
+          })
+          .catch(err => console.log(err))
       }
-    )
-  }
-  if (res.role == 'engineer') {
-    inquirer.prompt(
-      {
-        type: 'input',
-        name: 'github',
-        message: 'enter github username'
+      if (res.role == 'engineer') {
+        inquirer.prompt(
+          {
+            type: 'input',
+            name: 'github',
+            message: 'enter github username'
+          })
+          .then(eng => {
+            employees.push(new Engineer(res.name, res.id, res.email, eng.github))
+            inquirer.prompt({
+              type: 'confirm',
+              name: 'cont',
+              message: 'Would you like to add more employees?'
+            })
+              .then(res2 => {
+                if (res2.cont) { create() }
+                else {
+                  fs.writeFileSync('team.html', render(employees))
+                }
+              })
+              .catch(err => console.log(err))
+          })
+          .catch(err => console.log(err))
       }
-    )
-  }
-  if (res.role == 'intern') {
-    inquirer.prompt(
-      {
-        type: 'input',
-        name: 'school',
-        message: 'enter school'
+      if (res.role == 'intern') {
+        inquirer.prompt(
+          {
+            type: 'input',
+            name: 'school',
+            message: 'enter school'
+          })
+          .then(int => {
+            employees.push(new Intern(res.name, res.id, res.email, int.school))
+            inquirer.prompt({
+              type: 'confirm',
+              name: 'cont',
+              message: 'Would you like to add more employees?'
+            })
+              .then(res2 => {
+                if (res2.cont) { create() }
+                else {
+                  fs.writeFileSync('team.html', render(employees))
+                }
+              })
+              .catch(err => console.log(err))
+          })
+          .catch(err => console.log(err))
       }
-    )
-  }
-})
-.catch (err => console.log(err))
+
+    })
+    .catch(err => console.log(err))
+}
+create()
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
