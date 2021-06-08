@@ -7,7 +7,7 @@ This is a software engineering team generator command line application. The appl
 
 This app requires installing [inquirer](https://www.npmjs.com/package/inquirer) for collecting input from the user.
 
-### Usage
+## Usage
 
 The project prompts the user to build an engineering team. An engineering
 team consists of a manager, and any number of engineers and interns.
@@ -17,3 +17,7 @@ team consists of a manager, and any number of engineers and interns.
 ![Screenshot1](./Assets/screenshot1.png)
 
 ![Screenshot2](./Assets/screenshot2.png)
+
+## Styling Libraries
+
+This app was created using the [Bootstrap styling library](https://getbootstrap.com/)
