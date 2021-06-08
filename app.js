@@ -19,7 +19,7 @@ const create = () => {
       type: 'list',
       name: 'role',
       message: 'What is the role?',
-      choices: ['employee', 'manager', 'intern', 'engineer']
+      choices: ['manager', 'intern', 'engineer']
     },
     {
       type: 'input',
@@ -56,6 +56,7 @@ const create = () => {
                 if (res2.cont) { create() }
                 else {
                   fs.writeFileSync('team.html', render(employees))
+                  console.log('file created!')
                 }
               })
               .catch(err => console.log(err))
@@ -80,6 +81,7 @@ const create = () => {
                 if (res2.cont) { create() }
                 else {
                   fs.writeFileSync('team.html', render(employees))
+                  console.log('file created!')
                 }
               })
               .catch(err => console.log(err))
@@ -104,27 +106,28 @@ const create = () => {
                 if (res2.cont) { create() }
                 else {
                   fs.writeFileSync('team.html', render(employees))
+                  console.log('file created!')
                 }
               })
               .catch(err => console.log(err))
           })
           .catch(err => console.log(err))
       }
-      else {
-        employees.push(new Employee(res.name, res.id, res.email))
-        inquirer.prompt({
-          type: 'confirm',
-          name: 'cont',
-          message: 'Would you like to add more employees?'
-        })
-          .then(res2 => {
-            if (res2.cont) { create() }
-            else {
-              fs.writeFileSync('team.html', render(employees))
-            }
-          })
-          .catch(err => console.log(err))
-      }
+      // else {
+      //   employees.push(new Employee(res.name, res.id, res.email))
+      //   inquirer.prompt({
+      //     type: 'confirm',
+      //     name: 'cont',
+      //     message: 'Would you like to add more employees?'
+      //   })
+      //     .then(res2 => {
+      //       if (res2.cont) { create() }
+      //       else {
+      //         fs.writeFileSync('team.html', render(employees))
+      //       }
+      //     })
+      //     .catch(err => console.log(err))
+      // }
 
     })
     .catch(err => console.log(err))
