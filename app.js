@@ -1,6 +1,7 @@
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
+const Employee = require("./lib/Employee")
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
@@ -61,7 +62,7 @@ const create = () => {
           })
           .catch(err => console.log(err))
       }
-      if (res.role == 'engineer') {
+      else if (res.role == 'engineer') {
         inquirer.prompt(
           {
             type: 'input',
@@ -85,7 +86,7 @@ const create = () => {
           })
           .catch(err => console.log(err))
       }
-      if (res.role == 'intern') {
+      else if (res.role == 'intern') {
         inquirer.prompt(
           {
             type: 'input',
@@ -106,6 +107,21 @@ const create = () => {
                 }
               })
               .catch(err => console.log(err))
+          })
+          .catch(err => console.log(err))
+      }
+      else {
+        employees.push(new Employee(res.name, res.id, res.email))
+        inquirer.prompt({
+          type: 'confirm',
+          name: 'cont',
+          message: 'Would you like to add more employees?'
+        })
+          .then(res2 => {
+            if (res2.cont) { create() }
+            else {
+              fs.writeFileSync('team.html', render(employees))
+            }
           })
           .catch(err => console.log(err))
       }
